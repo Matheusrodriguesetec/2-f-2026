@@ -1,0 +1,78 @@
+body {
+    margin: 0;
+    border: 0;
+}
+
+h1 {
+    font-size: 25px;
+    font-family: sans-serif;
+    color: darkslategray;
+}
+
+.container {
+    margin: 100px;
+    border: 2px solid rgb(233, 218, 198);
+    border-radius: 15px;
+    background-color: rgb(255, 240, 221);
+}
+
+.main-cartoon {
+    margin: 25px;
+    border: 2px solid rgb(186, 168, 157);
+    border-radius: 15px;
+    background-color: rgb(212, 191, 178);
+    padding-left: 80px;
+    padding-right: 80px;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.elemento-cartoon {
+    margin: 25px;
+    border: 1px solid  rgb(167, 151, 141);
+    
+
+}
+
+.tom-cartoon {
+    width: 350px;
+    height: 250px;
+    border-radius: 15px;
+}
+
+.form-cartoon {
+    padding-left: 10px;
+    padding-top: 60px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    
+}
+
+.box-cartoon {
+    width: 342px;
+    height: 30px;
+
+    display: flex;
+    flex-direction: row;
+
+    font-size: 14px;
+
+    border-radius: 10px;
+    border: 2px solid rgb(161, 144, 122);
+    background-color: rgb(245, 238, 220);
+}
+
+
+
+.botao-cartoon {
+    width: 173px;
+    height: 30px;
+
+    font-size: 14px;
+    border-radius: 10px;
+    border: 2px solid rgb(161, 144, 122);
+    background-color: rgb(253, 249, 240);
+}
