@@ -1,0 +1,159 @@
+﻿C:\Users\Matheus>cd C:\xampp\mysql\bin
+
+C:\xampp\mysql\bin>mysql -u root
+
+
+MariaDB [(none)]> CREATE DATABASE loja;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]> use loja
+Database changed
+MariaDB [loja]> CREATE TABLE categorias (
+    -> id_categoria INT PRIMARY KEY AUTO_INCREMENT,
+    -> nome_cat VARCHAR(255)
+    -> );
+Query OK, 0 rows affected (0.009 sec)
+
+MariaDB [loja]> CREATE TABLE produtos (
+    -> id_produto INT PRIMARY KEY AUTO_INCREMENT,
+    -> nome VARCHAR(255),
+    -> preco DECIMAL(10,2),
+    -> quant INT,
+    -> marca VARCHAR(255),
+    -> id_categoria INT);
+Query OK, 0 rows affected (0.008 sec)
+
+MariaDB [loja]> ALTER TABLE produtos ADD FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria);
+Query OK, 0 rows affected (0.043 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [loja]> ALTER TABLE produtos CHANGE quant quantidade INT;
+Query OK, 0 rows affected (0.005 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [loja]>  ALTER TABLE produtos ADD data_validade DATE;
+Query OK, 0 rows affected (0.005 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [loja]> ALTER TABLE produtos DROP COLUMN marca;
+Query OK, 0 rows affected (0.006 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [loja]> INSERT INTO categorias (nome_cat) VALUES ('Eletrônicos'), ('Roupas');
+Query OK, 2 rows affected (0.002 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [loja]> describe produtos;
++---------------+---------------+------+-----+---------+----------------+
+| Field         | Type          | Null | Key | Default | Extra          |
++---------------+---------------+------+-----+---------+----------------+
+| id_produto    | int(11)       | NO   | PRI | NULL    | auto_increment |
+| nome          | varchar(255)  | YES  |     | NULL    |                |
+| preco         | decimal(10,2) | YES  |     | NULL    |                |
+| quantidade    | int(11)       | YES  |     | NULL    |                |
+| id_categoria  | int(11)       | YES  | MUL | NULL    |                |
+| data_validade | date          | YES  |     | NULL    |                |
++---------------+---------------+------+-----+---------+----------------+
+6 rows in set (0.013 sec)
+
+MariaDB [loja]> describe categorias;
++--------------+--------------+------+-----+---------+----------------+
+| Field        | Type         | Null | Key | Default | Extra          |
++--------------+--------------+------+-----+---------+----------------+
+| id_categoria | int(11)      | NO   | PRI | NULL    | auto_increment |
+| nome_cat     | varchar(255) | YES  |     | NULL    |                |
++--------------+--------------+------+-----+---------+----------------+
+2 rows in set (0.013 sec)
+
+MariaDB [loja]> INSERT INTO categorias (nome_cat) VALUES ('Eletrônicos'), ('Roupas');
+Query OK, 2 rows affected (0.003 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [loja]> INSERT INTO produtos (nome, preco, quantidade, id_categoria, data_validade) VALUES ('Celular', 1500.00, 1,1,2026-05-15);
+Query OK, 1 row affected, 1 warning (0.002 sec)
+
+MariaDB [loja]> describe produtos
+    -> ;
++---------------+---------------+------+-----+---------+----------------+
+| Field         | Type          | Null | Key | Default | Extra          |
++---------------+---------------+------+-----+---------+----------------+
+| id_produto    | int(11)       | NO   | PRI | NULL    | auto_increment |
+| nome          | varchar(255)  | YES  |     | NULL    |                |
+| preco         | decimal(10,2) | YES  |     | NULL    |                |
+| quantidade    | int(11)       | YES  |     | NULL    |                |
+| id_categoria  | int(11)       | YES  | MUL | NULL    |                |
+| data_validade | date          | YES  |     | NULL    |                |
++---------------+---------------+------+-----+---------+----------------+
+6 rows in set (0.009 sec)
+
+MariaDB [loja]> SELECT * FROM produtos;
++------------+---------+---------+------------+--------------+---------------+
+| id_produto | nome    | preco   | quantidade | id_categoria | data_validade |
++------------+---------+---------+------------+--------------+---------------+
+|          1 | Celular | 1500.00 |          1 |            1 | 0000-00-00    |
+|          2 | Celular | 1500.00 |          1 |            1 | 2026-05-15    |
++------------+---------+---------+------------+--------------+---------------+
+2 rows in set (0.000 sec)
+
+MariaDB [loja]> INSERT INTO produtos (nome, preco, quantidade, id_categoria, data_validade) VALUES ('Notebook', 3000.00, 1, 1, '2016-02-10');_
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [loja]> SELECT * FROM produtos;
++------------+----------+---------+------------+--------------+---------------+
+| id_produto | nome     | preco   | quantidade | id_categoria | data_validade |
++------------+----------+---------+------------+--------------+---------------+
+|          1 | Celular  | 1500.00 |          1 |            1 | 0000-00-00    |
+|          2 | Celular  | 1500.00 |          1 |            1 | 2026-05-15    |
+|          3 | Notebook | 3000.00 |          1 |            1 | 2016-02-10    |
++------------+----------+---------+------------+--------------+---------------+
+3 rows in set (0.000 sec)
+
+MariaDB [loja]> INSERT INTO produtos (nome, preco, quantidade, id_categoria, data_validade) VALUES ('Mesa digitalizatora', 500.00, 1, 1, '2018-04-12');_
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [loja]> SELECT * FROM produtos;
++------------+---------------------+---------+------------+--------------+---------------+
+| id_produto | nome                | preco   | quantidade | id_categoria | data_validade |
++------------+---------------------+---------+------------+--------------+---------------+
+|          1 | Celular             | 1500.00 |          1 |            1 | 0000-00-00    |
+|          2 | Celular             | 1500.00 |          1 |            1 | 2026-05-15    |
+|          3 | Notebook            | 3000.00 |          1 |            1 | 2016-02-10    |
+|          4 | Mesa digitalizatora |  500.00 |          1 |            1 | 2018-04-12    |
++------------+---------------------+---------+------------+--------------+---------------+
+4 rows in set (0.000 sec)
+
+MariaDB [loja]> INSERT INTO produtos (nome, preco, quantidade, id_categoria, data_validade) VALUES ('celular 2',700.00, 1, 1, '2021-03-12');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [loja]> INSERT INTO produtos (nome, preco, quantidade, id_categoria, data_validade) VALUES ('celular 3',180.00, 1, 1, '2023-12-15');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [loja]> INSERT INTO produtos (nome, preco, quantidade, id_categoria, data_validade) VALUES ('Televisão', 5000.00, 1, 1, '2024-11-11');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [loja]> INSERT INTO produtos (nome, preco, quantidade, id_categoria, data_validade) VALUES ('jaqueta', 50.00, 1, 2, '2024-11-11');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [loja]> INSERT INTO produtos (nome, preco, quantidade, id_categoria, data_validade) VALUES ('jaqueta do mike jaquison', 10000.00, 1, 2, '2025-11-11');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [loja]> INSERT INTO produtos (nome, preco, quantidade, id_categoria, data_validade) VALUES ('jaqueta do mike jaquison 2', 100000.00, 1, 2, '2026-12-11');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [loja]> SELECT * FROM produtos;
++------------+----------------------------+-----------+------------+--------------+---------------+
+| id_produto | nome                       | preco     | quantidade | id_categoria | data_validade |
++------------+----------------------------+-----------+------------+--------------+---------------+
+|          1 | Celular                    |   1500.00 |          1 |            1 | 0000-00-00    |
+|          2 | Celular                    |   1500.00 |          1 |            1 | 2026-05-15    |
+|          3 | Notebook                   |   3000.00 |          1 |            1 | 2016-02-10    |
+|          4 | Mesa digitalizatora        |    500.00 |          1 |            1 | 2018-04-12    |
+|          5 | celular 2                  |    700.00 |          1 |            1 | 2021-03-12    |
+|          6 | celular 3                  |    180.00 |          1 |            1 | 2023-12-15    |
+|          7 | Televisão                  |   5000.00 |          1 |            1 | 2024-11-11    |
+|          8 | jaqueta                    |     50.00 |          1 |            2 | 2024-11-11    |
+|          9 | jaqueta do mike jaquison   |  10000.00 |          1 |            2 | 2025-11-11    |
+|         10 | jaqueta do mike jaquison 2 | 100000.00 |          1 |            2 | 2026-12-11    |
++------------+----------------------------+-----------+------------+--------------+---------------+
+10 rows in set (0.000 sec)
+
