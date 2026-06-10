@@ -1,0 +1,526 @@
+﻿C:\Users\Matheus>cd C:\xampp\mysql\bin
+
+C:\xampp\mysql\bin>mysql -u root
+
+
+MariaDB [(none)]> CREATE DATABASE loja;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]> use loja
+Database changed
+MariaDB [loja]> CREATE TABLE categorias (
+    -> id_categoria INT PRIMARY KEY AUTO_INCREMENT,
+    -> nome_cat VARCHAR(255)
+    -> );
+Query OK, 0 rows affected (0.009 sec)
+
+MariaDB [loja]> CREATE TABLE produtos (
+    -> id_produto INT PRIMARY KEY AUTO_INCREMENT,
+    -> nome VARCHAR(255),
+    -> preco DECIMAL(10,2),
+    -> quant INT,
+    -> marca VARCHAR(255),
+    -> id_categoria INT);
+Query OK, 0 rows affected (0.008 sec)
+
+MariaDB [loja]> ALTER TABLE produtos ADD FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria);
+Query OK, 0 rows affected (0.043 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [loja]> ALTER TABLE produtos CHANGE quant quantidade INT;
+Query OK, 0 rows affected (0.005 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [loja]>  ALTER TABLE produtos ADD data_validade DATE;
+Query OK, 0 rows affected (0.005 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [loja]> ALTER TABLE produtos DROP COLUMN marca;
+Query OK, 0 rows affected (0.006 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [loja]> INSERT INTO categorias (nome_cat) VALUES ('Eletrônicos'), ('Roupas');
+Query OK, 2 rows affected (0.002 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [loja]> describe produtos;
++---------------+---------------+------+-----+---------+----------------+
+| Field         | Type          | Null | Key | Default | Extra          |
++---------------+---------------+------+-----+---------+----------------+
+| id_produto    | int(11)       | NO   | PRI | NULL    | auto_increment |
+| nome          | varchar(255)  | YES  |     | NULL    |                |
+| preco         | decimal(10,2) | YES  |     | NULL    |                |
+| quantidade    | int(11)       | YES  |     | NULL    |                |
+| id_categoria  | int(11)       | YES  | MUL | NULL    |                |
+| data_validade | date          | YES  |     | NULL    |                |
++---------------+---------------+------+-----+---------+----------------+
+6 rows in set (0.013 sec)
+
+MariaDB [loja]> describe categorias;
++--------------+--------------+------+-----+---------+----------------+
+| Field        | Type         | Null | Key | Default | Extra          |
++--------------+--------------+------+-----+---------+----------------+
+| id_categoria | int(11)      | NO   | PRI | NULL    | auto_increment |
+| nome_cat     | varchar(255) | YES  |     | NULL    |                |
++--------------+--------------+------+-----+---------+----------------+
+2 rows in set (0.013 sec)
+
+MariaDB [loja]> INSERT INTO categorias (nome_cat) VALUES ('Eletrônicos'), ('Roupas');
+Query OK, 2 rows affected (0.003 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [loja]> INSERT INTO produtos (nome, preco, quantidade, id_categoria, data_validade) VALUES ('Celular', 1500.00, 1,1,2026-05-15);
+Query OK, 1 row affected, 1 warning (0.002 sec)
+
+MariaDB [loja]> describe produtos
+    -> ;
++---------------+---------------+------+-----+---------+----------------+
+| Field         | Type          | Null | Key | Default | Extra          |
++---------------+---------------+------+-----+---------+----------------+
+| id_produto    | int(11)       | NO   | PRI | NULL    | auto_increment |
+| nome          | varchar(255)  | YES  |     | NULL    |                |
+| preco         | decimal(10,2) | YES  |     | NULL    |                |
+| quantidade    | int(11)       | YES  |     | NULL    |                |
+| id_categoria  | int(11)       | YES  | MUL | NULL    |                |
+| data_validade | date          | YES  |     | NULL    |                |
++---------------+---------------+------+-----+---------+----------------+
+6 rows in set (0.009 sec)
+
+MariaDB [loja]> SELECT * FROM produtos;
++------------+---------+---------+------------+--------------+---------------+
+| id_produto | nome    | preco   | quantidade | id_categoria | data_validade |
++------------+---------+---------+------------+--------------+---------------+
+|          1 | Celular | 1500.00 |          1 |            1 | 0000-00-00    |
+|          2 | Celular | 1500.00 |          1 |            1 | 2026-05-15    |
++------------+---------+---------+------------+--------------+---------------+
+2 rows in set (0.000 sec)
+
+MariaDB [loja]> INSERT INTO produtos (nome, preco, quantidade, id_categoria, data_validade) VALUES ('Notebook', 3000.00, 1, 1, '2016-02-10');_
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [loja]> SELECT * FROM produtos;
++------------+----------+---------+------------+--------------+---------------+
+| id_produto | nome     | preco   | quantidade | id_categoria | data_validade |
++------------+----------+---------+------------+--------------+---------------+
+|          1 | Celular  | 1500.00 |          1 |            1 | 0000-00-00    |
+|          2 | Celular  | 1500.00 |          1 |            1 | 2026-05-15    |
+|          3 | Notebook | 3000.00 |          1 |            1 | 2016-02-10    |
++------------+----------+---------+------------+--------------+---------------+
+3 rows in set (0.000 sec)
+
+MariaDB [loja]> INSERT INTO produtos (nome, preco, quantidade, id_categoria, data_validade) VALUES ('Mesa digitalizatora', 500.00, 1, 1, '2018-04-12');_
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [loja]> SELECT * FROM produtos;
++------------+---------------------+---------+------------+--------------+---------------+
+| id_produto | nome                | preco   | quantidade | id_categoria | data_validade |
++------------+---------------------+---------+------------+--------------+---------------+
+|          1 | Celular             | 1500.00 |          1 |            1 | 0000-00-00    |
+|          2 | Celular             | 1500.00 |          1 |            1 | 2026-05-15    |
+|          3 | Notebook            | 3000.00 |          1 |            1 | 2016-02-10    |
+|          4 | Mesa digitalizatora |  500.00 |          1 |            1 | 2018-04-12    |
++------------+---------------------+---------+------------+--------------+---------------+
+4 rows in set (0.000 sec)
+
+MariaDB [loja]> INSERT INTO produtos (nome, preco, quantidade, id_categoria, data_validade) VALUES ('celular 2',700.00, 1, 1, '2021-03-12');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [loja]> INSERT INTO produtos (nome, preco, quantidade, id_categoria, data_validade) VALUES ('celular 3',180.00, 1, 1, '2023-12-15');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [loja]> INSERT INTO produtos (nome, preco, quantidade, id_categoria, data_validade) VALUES ('Televisão', 5000.00, 1, 1, '2024-11-11');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [loja]> INSERT INTO produtos (nome, preco, quantidade, id_categoria, data_validade) VALUES ('jaqueta', 50.00, 1, 2, '2024-11-11');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [loja]> INSERT INTO produtos (nome, preco, quantidade, id_categoria, data_validade) VALUES ('jaqueta do mike jaquison', 10000.00, 1, 2, '2025-11-11');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [loja]> INSERT INTO produtos (nome, preco, quantidade, id_categoria, data_validade) VALUES ('jaqueta do mike jaquison 2', 100000.00, 1, 2, '2026-12-11');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [loja]> SELECT * FROM produtos;
++------------+----------------------------+-----------+------------+--------------+---------------+
+| id_produto | nome                       | preco     | quantidade | id_categoria | data_validade |
++------------+----------------------------+-----------+------------+--------------+---------------+
+|          1 | Celular                    |   1500.00 |          1 |            1 | 0000-00-00    |
+|          2 | Celular                    |   1500.00 |          1 |            1 | 2026-05-15    |
+|          3 | Notebook                   |   3000.00 |          1 |            1 | 2016-02-10    |
+|          4 | Mesa digitalizatora        |    500.00 |          1 |            1 | 2018-04-12    |
+|          5 | celular 2                  |    700.00 |          1 |            1 | 2021-03-12    |
+|          6 | celular 3                  |    180.00 |          1 |            1 | 2023-12-15    |
+|          7 | Televisão                  |   5000.00 |          1 |            1 | 2024-11-11    |
+|          8 | jaqueta                    |     50.00 |          1 |            2 | 2024-11-11    |
+|          9 | jaqueta do mike jaquison   |  10000.00 |          1 |            2 | 2025-11-11    |
+|         10 | jaqueta do mike jaquison 2 | 100000.00 |          1 |            2 | 2026-12-11    |
++------------+----------------------------+-----------+------------+--------------+---------------+
+10 rows in set (0.000 sec)
+
+
+MariaDB [loja]> INSERT INTO produtos (nome, preco, quantidade, id_categoria, data_validade, marca) VALUES ('Memória Ram 16g', 750.50, 50, 1, 2050-02-03, 'SATA Pichau');
+Query OK, 1 row affected, 1 warning (0.029 sec)
+
+MariaDB [loja]> select * from produtos
+    -> ;
++------------+----------------------------+-----------+------------+--------------+---------------+-------------+
+| id_produto | nome                       | preco     | quantidade | id_categoria | data_validade | marca       |
++------------+----------------------------+-----------+------------+--------------+---------------+-------------+
+|          1 | Celular                    |   1500.00 |          1 |            1 | 0000-00-00    |             |
+|          2 | Celular                    |   1500.00 |          1 |            1 | 2026-05-15    |             |
+|          3 | Notebook                   |   3000.00 |          1 |            1 | 2016-02-10    |             |
+|          4 | Mesa digitalizatora        |    500.00 |          1 |            1 | 2018-04-12    |             |
+|          5 | celular 2                  |    700.00 |          1 |            1 | 2021-03-12    |             |
+|          6 | celular 3                  |    180.00 |          1 |            1 | 2023-12-15    |             |
+|          7 | Televisão                  |   5000.00 |          1 |            1 | 2024-11-11    |             |
+|          8 | jaqueta                    |     50.00 |          1 |            2 | 2024-11-11    |             |
+|          9 | jaqueta do mike jaquison   |  10000.00 |          1 |            2 | 2025-11-11    |             |
+|         10 | jaqueta do mike jaquison 2 | 100000.00 |          1 |            2 | 2026-12-11    |             |
+|         11 | Memória Ram 16g            |    750.50 |         50 |            1 | 0000-00-00    | SATA Pichau |
++------------+----------------------------+-----------+------------+--------------+---------------+-------------+
+11 rows in set (0.000 sec)
+
+MariaDB [loja]> UPDATE produtos SET data_validade = '2050-05-06' WHERE id_produto = 11;
+Query OK, 1 row affected (0.027 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [loja]> select * from produtos;
++------------+----------------------------+-----------+------------+--------------+---------------+-------------+
+| id_produto | nome                       | preco     | quantidade | id_categoria | data_validade | marca       |
++------------+----------------------------+-----------+------------+--------------+---------------+-------------+
+|          1 | Celular                    |   1500.00 |          1 |            1 | 0000-00-00    |             |
+|          2 | Celular                    |   1500.00 |          1 |            1 | 2026-05-15    |             |
+|          3 | Notebook                   |   3000.00 |          1 |            1 | 2016-02-10    |             |
+|          4 | Mesa digitalizatora        |    500.00 |          1 |            1 | 2018-04-12    |             |
+|          5 | celular 2                  |    700.00 |          1 |            1 | 2021-03-12    |             |
+|          6 | celular 3                  |    180.00 |          1 |            1 | 2023-12-15    |             |
+|          7 | Televisão                  |   5000.00 |          1 |            1 | 2024-11-11    |             |
+|          8 | jaqueta                    |     50.00 |          1 |            2 | 2024-11-11    |             |
+|          9 | jaqueta do mike jaquison   |  10000.00 |          1 |            2 | 2025-11-11    |             |
+|         10 | jaqueta do mike jaquison 2 | 100000.00 |          1 |            2 | 2026-12-11    |             |
+|         11 | Memória Ram 16g            |    750.50 |         50 |            1 | 2050-05-06    | SATA Pichau |
++------------+----------------------------+-----------+------------+--------------+---------------+-------------+
+11 rows in set (0.000 sec)
+
+MariaDB [loja]> UPDATE produtos SET marca = 'Samsung' WHERE id_produto = 1;
+Query OK, 1 row affected (0.031 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [loja]> UPDATE produtos SET marca = 'APPLE' WHERE id_produto = 2;
+Query OK, 1 row affected (0.026 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [loja]> UPDATE produtos SET marca = 'PICHAU' WHERE id_produto = 3;
+Query OK, 1 row affected (0.222 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [loja]> UPDATE produtos SET marca = 'XPENX' WHERE id_produto = 4;
+Query OK, 1 row affected (0.028 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [loja]> UPDATE produtos SET marca = 'lg' WHERE id_produto = 5;
+Query OK, 1 row affected (0.028 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [loja]> UPDATE produtos SET marca = 'Positivo' WHERE id_produto = 6;
+Query OK, 1 row affected (0.026 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [loja]> UPDATE produtos SET marca = 'LG' WHERE id_produto = 7;
+Query OK, 1 row affected (0.028 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [loja]> UPDATE produtos SET marca = 'GUCCI' WHERE id_produto = 8;
+Query OK, 1 row affected (0.034 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [loja]> UPDATE produtos SET marca = 'GUCCI' WHERE id_produto = 9;
+Query OK, 1 row affected (0.044 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [loja]> UPDATE produtos SET marca = 'FURY' WHERE id_produto = 10;
+Query OK, 1 row affected (0.025 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [loja]> Select * from produtos;
++------------+----------------------------+-----------+------------+--------------+---------------+-------------+
+| id_produto | nome                       | preco     | quantidade | id_categoria | data_validade | marca       |
++------------+----------------------------+-----------+------------+--------------+---------------+-------------+
+|          1 | Celular                    |   1500.00 |          1 |            1 | 0000-00-00    | Samsung     |
+|          2 | Celular                    |   1500.00 |          1 |            1 | 2026-05-15    | APPLE       |
+|          3 | Notebook                   |   3000.00 |          1 |            1 | 2016-02-10    | PICHAU      |
+|          4 | Mesa digitalizatora        |    500.00 |          1 |            1 | 2018-04-12    | XPENX       |
+|          5 | celular 2                  |    700.00 |          1 |            1 | 2021-03-12    | lg          |
+|          6 | celular 3                  |    180.00 |          1 |            1 | 2023-12-15    | Positivo    |
+|          7 | Televisão                  |   5000.00 |          1 |            1 | 2024-11-11    | LG          |
+|          8 | jaqueta                    |     50.00 |          1 |            2 | 2024-11-11    | GUCCI       |
+|          9 | jaqueta do mike jaquison   |  10000.00 |          1 |            2 | 2025-11-11    | GUCCI       |
+|         10 | jaqueta do mike jaquison 2 | 100000.00 |          1 |            2 | 2026-12-11    | FURY        |
+|         11 | Memória Ram 16g            |    750.50 |         50 |            1 | 2050-05-06    | SATA Pichau |
++------------+----------------------------+-----------+------------+--------------+---------------+-------------+
+11 rows in set (0.000 sec)
+
+
+
+MariaDB [loja]> delete from produtos where id_produto = 4
+    -> ;
+Query OK, 1 row affected (0.072 sec)
+
+MariaDB [loja]> select * from produtos;
++------------+----------------------------+-----------+------------+--------------+---------------+-------------+
+| id_produto | nome                       | preco     | quantidade | id_categoria | data_validade | marca       |
++------------+----------------------------+-----------+------------+--------------+---------------+-------------+
+|          1 | Celular                    |   1500.00 |          1 |            1 | 0000-00-00    | Samsung     |
+|          2 | Celular                    |   1500.00 |          1 |            1 | 2026-05-15    | APPLE       |
+|          3 | Notebook                   |   3000.00 |          1 |            1 | 2016-02-10    | PICHAU      |
+|          5 | celular 2                  |    700.00 |          1 |            1 | 2021-03-12    | lg          |
+|          6 | celular 3                  |    180.00 |          1 |            1 | 2023-12-15    | Positivo    |
+|          7 | Televisão                  |   5000.00 |          1 |            1 | 2024-11-11    | LG          |
+|          8 | jaqueta                    |     50.00 |          1 |            2 | 2024-11-11    | GUCCI       |
+|          9 | jaqueta do mike jaquison   |  10000.00 |          1 |            2 | 2025-11-11    | GUCCI       |
+|         10 | jaqueta do mike jaquison 2 | 100000.00 |          1 |            2 | 2026-12-11    | FURY        |
+|         11 | Memória Ram 16g            |    750.50 |         50 |            1 | 2050-05-06    | SATA Pichau |
+|         12 | Memória Ram 16g            |    750.50 |         50 |            1 | 0000-00-00    | SATA Pichau |
++------------+----------------------------+-----------+------------+--------------+---------------+-------------+
+11 rows in set (0.000 sec)
+
+MariaDB [loja]> select * from produtos where marca = 'SATA Pichau';
++------------+-----------------+--------+------------+--------------+---------------+-------------+
+| id_produto | nome            | preco  | quantidade | id_categoria | data_validade | marca       |
++------------+-----------------+--------+------------+--------------+---------------+-------------+
+|         11 | Memória Ram 16g | 750.50 |         50 |            1 | 2050-05-06    | SATA Pichau |
+|         12 | Memória Ram 16g | 750.50 |         50 |            1 | 0000-00-00    | SATA Pichau |
++------------+-----------------+--------+------------+--------------+---------------+-------------+
+2 rows in set (0.001 sec)
+
+MariaDB [loja]> select preco from produtos;
++-----------+
+| preco     |
++-----------+
+|   1500.00 |
+|   1500.00 |
+|   3000.00 |
+|    700.00 |
+|    180.00 |
+|   5000.00 |
+|     50.00 |
+|  10000.00 |
+| 100000.00 |
+|    750.50 |
+|    750.50 |
++-----------+
+11 rows in set (0.000 sec)
+
+MariaDB [loja]> select avg(preco) from produtos;
++--------------+
+| avg(preco)   |
++--------------+
+| 11221.000000 |
++--------------+
+1 row in set (0.000 sec)
+
+MariaDB [loja]> select * from produtos where preco <= 1000;
++------------+-----------------+--------+------------+--------------+---------------+-------------+
+| id_produto | nome            | preco  | quantidade | id_categoria | data_validade | marca       |
++------------+-----------------+--------+------------+--------------+---------------+-------------+
+|          5 | celular 2       | 700.00 |          1 |            1 | 2021-03-12    | lg          |
+|          6 | celular 3       | 180.00 |          1 |            1 | 2023-12-15    | Positivo    |
+|          8 | jaqueta         |  50.00 |          1 |            2 | 2024-11-11    | GUCCI       |
+|         11 | Memória Ram 16g | 750.50 |         50 |            1 | 2050-05-06    | SATA Pichau |
+|         12 | Memória Ram 16g | 750.50 |         50 |            1 | 0000-00-00    | SATA Pichau |
++------------+-----------------+--------+------------+--------------+---------------+-------------+
+5 rows in set (0.000 sec)
+
+MariaDB [loja]> select nome, preco from produtos;
++----------------------------+-----------+
+| nome                       | preco     |
++----------------------------+-----------+
+| Celular                    |   1500.00 |
+| Celular                    |   1500.00 |
+| Notebook                   |   3000.00 |
+| celular 2                  |    700.00 |
+| celular 3                  |    180.00 |
+| Televisão                  |   5000.00 |
+| jaqueta                    |     50.00 |
+| jaqueta do mike jaquison   |  10000.00 |
+| jaqueta do mike jaquison 2 | 100000.00 |
+| Memória Ram 16g            |    750.50 |
+| Memória Ram 16g            |    750.50 |
++----------------------------+-----------+
+11 rows in set (0.000 sec)
+
+MariaDB [loja]> SELECT * FROM produtos WHERE preco > 20;
++------------+----------------------------+-----------+------------+--------------+---------------+-------------+
+| id_produto | nome                       | preco     | quantidade | id_categoria | data_validade | marca       |
++------------+----------------------------+-----------+------------+--------------+---------------+-------------+
+|          1 | Celular                    |   1500.00 |          1 |            1 | 0000-00-00    | Samsung     |
+|          2 | Celular                    |   1500.00 |          1 |            1 | 2026-05-15    | APPLE       |
+|          3 | Notebook                   |   3000.00 |          1 |            1 | 2016-02-10    | PICHAU      |
+|          5 | celular 2                  |    700.00 |          1 |            1 | 2021-03-12    | lg          |
+|          6 | celular 3                  |    180.00 |          1 |            1 | 2023-12-15    | Positivo    |
+|          7 | Televisão                  |   5000.00 |          1 |            1 | 2024-11-11    | LG          |
+|          8 | jaqueta                    |     50.00 |          1 |            2 | 2024-11-11    | GUCCI       |
+|          9 | jaqueta do mike jaquison   |  10000.00 |          1 |            2 | 2025-11-11    | GUCCI       |
+|         10 | jaqueta do mike jaquison 2 | 100000.00 |          1 |            2 | 2026-12-11    | FURY        |
+|         11 | Memória Ram 16g            |    750.50 |         50 |            1 | 2050-05-06    | SATA Pichau |
+|         12 | Memória Ram 16g            |    750.50 |         50 |            1 | 0000-00-00    | SATA Pichau |
++------------+----------------------------+-----------+------------+--------------+---------------+-------------+
+11 rows in set (0.000 sec)
+
+MariaDB [loja]> SELECT nome, preco FROM produtos ORDER BY preco ASC LIMIT 5;
++-----------------+--------+
+| nome            | preco  |
++-----------------+--------+
+| jaqueta         |  50.00 |
+| celular 3       | 180.00 |
+| celular 2       | 700.00 |
+| Memória Ram 16g | 750.50 |
+| Memória Ram 16g | 750.50 |
++-----------------+--------+
+5 rows in set (0.000 sec)
+
+MariaDB [loja]> SELECT nome, preco FROM produtos ORDER BY preco DESC LIMIT 5;
++----------------------------+-----------+
+| nome                       | preco     |
++----------------------------+-----------+
+| jaqueta do mike jaquison 2 | 100000.00 |
+| jaqueta do mike jaquison   |  10000.00 |
+| Televisão                  |   5000.00 |
+| Notebook                   |   3000.00 |
+| Celular                    |   1500.00 |
++----------------------------+-----------+
+5 rows in set (0.000 sec)
+
+MariaDB [loja]> SELECT nome, preco from produtos order by preco desc;
++----------------------------+-----------+
+| nome                       | preco     |
++----------------------------+-----------+
+| jaqueta do mike jaquison 2 | 100000.00 |
+| jaqueta do mike jaquison   |  10000.00 |
+| Televisão                  |   5000.00 |
+| Notebook                   |   3000.00 |
+| Celular                    |   1500.00 |
+| Celular                    |   1500.00 |
+| Memória Ram 16g            |    750.50 |
+| Memória Ram 16g            |    750.50 |
+| celular 2                  |    700.00 |
+| celular 3                  |    180.00 |
+| jaqueta                    |     50.00 |
++----------------------------+-----------+
+11 rows in set (0.000 sec)
+
+MariaDB [loja]> select count(*) as total_produtos from produtos;
++----------------+
+| total_produtos |
++----------------+
+|             11 |
++----------------+
+1 row in set (0.000 sec)
+
+MariaDB [loja]> select * from produtos
+    -> ;
++------------+----------------------------+-----------+------------+--------------+---------------+-------------+
+| id_produto | nome                       | preco     | quantidade | id_categoria | data_validade | marca       |
++------------+----------------------------+-----------+------------+--------------+---------------+-------------+
+|          1 | Celular                    |   1500.00 |          1 |            1 | 0000-00-00    | Samsung     |
+|          2 | Celular                    |   1500.00 |          1 |            1 | 2026-05-15    | APPLE       |
+|          3 | Notebook                   |   3000.00 |          1 |            1 | 2016-02-10    | PICHAU      |
+|          5 | celular 2                  |    700.00 |          1 |            1 | 2021-03-12    | lg          |
+|          6 | celular 3                  |    180.00 |          1 |            1 | 2023-12-15    | Positivo    |
+|          7 | Televisão                  |   5000.00 |          1 |            1 | 2024-11-11    | LG          |
+|          8 | jaqueta                    |     50.00 |          1 |            2 | 2024-11-11    | GUCCI       |
+|          9 | jaqueta do mike jaquison   |  10000.00 |          1 |            2 | 2025-11-11    | GUCCI       |
+|         10 | jaqueta do mike jaquison 2 | 100000.00 |          1 |            2 | 2026-12-11    | FURY        |
+|         11 | Memória Ram 16g            |    750.50 |         50 |            1 | 2050-05-06    | SATA Pichau |
+|         12 | Memória Ram 16g            |    750.50 |         50 |            1 | 0000-00-00    | SATA Pichau |
++------------+----------------------------+-----------+------------+--------------+---------------+-------------+
+11 rows in set (0.000 sec)
+
+MariaDB [loja]> select count(*) as total_bananas from produtos;
++---------------+
+| total_bananas |
++---------------+
+|            11 |
++---------------+
+1 row in set (0.001 sec)
+
+MariaDB [loja]> SELECT AVG(preco) AS preco_medio FROM produtos;
++--------------+
+| preco_medio  |
++--------------+
+| 11221.000000 |
++--------------+
+1 row in set (0.000 sec)
+
+MariaDB [loja]> SELECT nome, quantidade FROM produtos ORDER BY quantidade DESC LIMIT 1;
++-----------------+------------+
+| nome            | quantidade |
++-----------------+------------+
+| Memória Ram 16g |         50 |
++-----------------+------------+
+1 row in set (0.000 sec)
+
+MariaDB [loja]> select p.nome, p.marca, p.preco from produtos p join categorias c on p.id_categoria = c.id_categoria;
++----------------------------+-------------+-----------+
+| nome                       | marca       | preco     |
++----------------------------+-------------+-----------+
+| Celular                    | Samsung     |   1500.00 |
+| Celular                    | APPLE       |   1500.00 |
+| Notebook                   | PICHAU      |   3000.00 |
+| celular 2                  | lg          |    700.00 |
+| celular 3                  | Positivo    |    180.00 |
+| Televisão                  | LG          |   5000.00 |
+| jaqueta                    | GUCCI       |     50.00 |
+| jaqueta do mike jaquison   | GUCCI       |  10000.00 |
+| jaqueta do mike jaquison 2 | FURY        | 100000.00 |
+| Memória Ram 16g            | SATA Pichau |    750.50 |
+| Memória Ram 16g            | SATA Pichau |    750.50 |
++----------------------------+-------------+-----------+
+11 rows in set (0.000 sec)
+
+MariaDB [loja]> select p.nome, p.marca, p.preco from produtos p join categorias c on p.id_categoria = c.id_categoria where c.nome_cat = 'Eletrônicos';
++-----------------+-------------+---------+
+| nome            | marca       | preco   |
++-----------------+-------------+---------+
+| Celular         | Samsung     | 1500.00 |
+| Celular         | APPLE       | 1500.00 |
+| Notebook        | PICHAU      | 3000.00 |
+| celular 2       | lg          |  700.00 |
+| celular 3       | Positivo    |  180.00 |
+| Televisão       | LG          | 5000.00 |
+| Memória Ram 16g | SATA Pichau |  750.50 |
+| Memória Ram 16g | SATA Pichau |  750.50 |
++-----------------+-------------+---------+
+8 rows in set (0.001 sec)
+
+MariaDB [loja]> SELECT c.nome_cat, COUNT(*) AS total_produtos FROM produtos p JOIN categorias c ON p.id_categoria = c.id_categoria GROUP BY c.nome_cat;
++-------------+----------------+
+| nome_cat    | total_produtos |
++-------------+----------------+
+| Eletrônicos |              8 |
+| Roupas      |              3 |
++-------------+----------------+
+2 rows in set (0.001 sec)
+
+MariaDB [loja]> SELECT * FROM produtos
+    -> WHERE preco BETWEEN 10 AND 20;
+Empty set (0.000 sec)
+
+MariaDB [loja]> SELECT * FROM produtos
+    -> WHERE nome LIKE 'P%';
+Empty set (0.001 sec)
+
+MariaDB [loja]> SELECT DISTINCT marca FROM produtos;
++-------------+
+| marca       |
++-------------+
+| Samsung     |
+| APPLE       |
+| PICHAU      |
+| lg          |
+| Positivo    |
+| GUCCI       |
+| FURY        |
+| SATA Pichau |
++-------------+
+8 rows in set (0.000 sec)
